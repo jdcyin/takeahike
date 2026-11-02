@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>take a hike</title>
+  <meta name="description" content="Can't decide where to hike in Hong Kong? Answer three questions and we'll pick one for you.">
+  <meta name="theme-color" content="#1E2B22">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 28'%3E%3Cpath d='M2 26L18 6l8 8 6-6 10 18z' fill='%23FFCC00'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Playwrite+AU+SA:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="backdrop" aria-hidden="true"></div>
+  <span class="admin-badge" hidden>ADMIN · unlimited rerolls</span>
+
+  <button type="button" class="round about-btn" data-action="open-about" aria-label="About">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 7.5v.5"/></svg>
+  </button>
+
+  <main class="stage">
+
+    <!-- Home -->
+    <section class="screen" data-screen="home">
+      <div class="center home">
+        <h1 class="wordmark">take a hike</h1>
+        <button type="button" class="btn yel big" data-action="start"><span>LET'S GO</span><span>行喇</span></button>
+        <button type="button" class="btn link" data-action="pick-for-me">Just pick one for me</button>
+      </div>
+    </section>
+
+    <!-- Starting where? -->
+    <section class="screen" data-screen="where">
+      <div class="column">
+        <div class="topbar">
+          <button type="button" class="round" data-action="back" aria-label="Back"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+          <div class="progress" aria-label="Step 1 of 3"><i class="on"></i><i></i><i></i></div>
+        </div>
+        <h2 class="question">Starting where?</h2>
+        <div class="area-map" id="area-map"></div>
+        <div class="options area-list">
+          <button type="button" class="btn opt" data-area="hk_island">Hong Kong Island</button>
+          <button type="button" class="btn opt" data-area="kowloon">Kowloon</button>
+          <button type="button" class="btn opt" data-area="nt_east">New Territories East</button>
+          <button type="button" class="btn opt" data-area="nt_west">New Territories West</button>
+          <button type="button" class="btn opt" data-area="lantau">Lantau</button>
+          <button type="button" class="btn opt" data-area="islands">Islands</button>
+        </div>
+        <button type="button" class="btn opt dash" data-area="any">Don't care</button>
+      </div>
+    </section>
+
+    <!-- How much time? -->
+    <section class="screen" data-screen="time">
+      <div class="column narrow">
+        <div class="topbar">
+          <button type="button" class="round" data-action="back" aria-label="Back"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+          <div class="progress" aria-label="Step 2 of 3"><i class="on"></i><i class="on"></i><i></i></div>
+        </div>
+        <h2 class="question">How much time do you have today?</h2>
+        <button type="button" class="btn chip" data-action="open-origin">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.5-7-11.5a7 7 0 0 1 14 0C19 14.5 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+          <span>Leaving from <span data-bind="origin">Mong Kok</span></span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="options">
+          <button type="button" class="btn opt" data-time="0-3">Up to 3 hours</button>
+          <button type="button" class="btn opt" data-time="3-5">3 – 5 hours</button>
+          <button type="button" class="btn opt" data-time="5-7">5 – 7 hours</button>
+          <button type="button" class="btn opt" data-time="7-99">7 hours +</button>
+          <button type="button" class="btn opt dash" data-time="any">Don't care</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Difficulty? -->
+    <section class="screen" data-screen="hard">
+      <div class="column narrow">
+        <div class="topbar">
+          <button type="button" class="round" data-action="back" aria-label="Back"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+          <div class="progress" aria-label="Step 3 of 3"><i class="on"></i><i class="on"></i><i class="on"></i></div>
+        </div>
+        <h2 class="question">Difficulty?</h2>
+        <div class="options">
+          <button type="button" class="btn opt tall" data-rating="Easy"><svg width="44" height="28" viewBox="0 0 44 28" aria-hidden="true"><path d="M2 26C14 22 30 22 42 18v8z" fill="currentColor"/></svg>Easy</button>
+          <button type="button" class="btn opt tall" data-rating="Moderate"><svg width="44" height="28" viewBox="0 0 44 28" aria-hidden="true"><path d="M2 26c10-4 16-14 24-14s12 8 16 10v4z" fill="currentColor"/></svg>Moderate</button>
+          <button type="button" class="btn opt tall" data-rating="Hard"><svg width="44" height="28" viewBox="0 0 44 28" aria-hidden="true"><path d="M2 26L18 6l8 8 6-6 10 18z" fill="currentColor"/></svg>Hard</button>
+          <button type="button" class="btn opt tall" data-rating="Brutal"><svg width="44" height="28" viewBox="0 0 44 28" aria-hidden="true"><path d="M2 26l10-16 6 6 8-15 8 13 4-5 4 17z" fill="currentColor"/></svg>Brutal</button>
+          <button type="button" class="btn opt dash" data-rating="any">Don't care</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Result -->
+    <section class="screen" data-screen="result">
+      <div class="column wide">
+        <div class="topbar"><span class="label" data-bind="pick-label">Today's hike</span></div>
+        <article class="card result-card">
+          <div class="result-map">
+            <div id="map" class="map" role="img" aria-label="Map of the route"></div>
+            <div class="legend">
+              <span><i class="dot start"></i>Start</span>
+              <span><i class="dot end"></i>End</span>
+              <span class="credit">Map © Lands Department, HKSAR</span>
+            </div>
+          </div>
+          <div class="result-info">
+            <h2 class="trail-name" data-bind="name"></h2>
+            <p class="trail-area" data-bind="area"></p>
+            <div class="stats">
+              <div class="stat"><b data-bind="km"></b><span>distance</span></div>
+              <div class="stat"><b data-bind="hours"></b><span>walking</span></div>
+              <div class="stat"><b data-bind="climb"></b><span>climbing</span></div>
+            </div>
+            <p class="rating">Our rating: <span data-bind="rating"></span></p>
+            <svg class="elev" viewBox="0 0 342 64" preserveAspectRatio="none" role="img" aria-label="Elevation profile"><path data-bind="elev" fill="#CFC8B3"/></svg>
+            <div class="elev-labels"><span data-bind="elev-left"></span><span data-bind="elev-right"></span></div>
+            <p class="note" data-bind="out-and-back" hidden>Out and back: you return the way you came.</p>
+            <p class="note" data-bind="relaxed" hidden>Nothing matched all three answers, so this is the closest match.</p>
+            <div class="trip">
+              <span class="eyebrow">From <span data-bind="origin">Mong Kok</span></span>
+              <div class="trip-row"><span><b>Get there</b></span><span data-bind="travel"></span></div>
+              <div class="trip-row"><span><b>Hike</b></span><span data-bind="hike"></span></div>
+              <div class="finish"><span class="eyebrow">When you finish</span><ol class="steps" data-steps="finish"></ol></div>
+            </div>
+          </div>
+        </article>
+        <button type="button" class="btn yel go-btn" data-action="go">Let's go</button>
+        <div class="actions">
+          <button type="button" class="btn opt stack" data-action="reroll" data-bind="reroll">
+            <span class="strong">One more time</span>
+            <span class="small">Last chance. No rerolls after this for another 30 minutes.</span>
+          </button>
+          <button type="button" class="btn opt stack" data-action="switch" data-bind="switch" hidden>
+            <span class="strong">Go back to <span data-bind="other-name"></span></span>
+            <span class="small" data-bind="other-which"></span>
+          </button>
+          <p class="lock" data-bind="lock" hidden></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Let's go: directions -->
+    <section class="screen" data-screen="go">
+      <div class="column narrow">
+        <div class="topbar">
+          <button type="button" class="round" data-action="back" aria-label="Back"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+          <span class="label">Let's go</span>
+        </div>
+        <article class="directions">
+          <div class="directions-head"><span class="mini-wordmark">take a hike</span><b>Emergency 999</b></div>
+          <h2 data-bind="name"></h2>
+          <p class="meta" data-bind="meta"></p>
+          <div class="directions-body">
+            <span class="eyebrow">Getting there</span>
+            <ol class="steps" data-steps="there"></ol>
+          </div>
+          <div class="directions-body">
+            <span class="eyebrow">When you finish</span>
+            <ol class="steps" data-steps="finish"></ol>
+          </div>
+          <a class="source" data-bind="source" target="_blank" rel="noopener">Official trail page</a>
+        </article>
+        <button type="button" class="btn opt save" data-action="save">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="M7 10l5 5 5-5"/><path d="M5 20h14"/></svg>
+          <span data-bind="save-label">Save directions to phone</span>
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Leaving from picker -->
+  <div class="sheet" data-modal="origin" hidden>
+    <button type="button" class="scrim" data-action="close-modal" aria-label="Close"></button>
+    <div class="sheet-panel" role="dialog" aria-modal="true" aria-labelledby="origin-title">
+      <div class="sheet-head">
+        <h2 id="origin-title">Leaving from</h2>
+        <button type="button" class="round" data-action="close-modal" aria-label="Close"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      </div>
+      <button type="button" class="btn yel locate" data-action="locate">Use my location</button>
+      <div class="origin-list" id="origin-list"></div>
+    </div>
+  </div>
+
+  <!-- About -->
+  <div class="sheet about" data-modal="about" hidden>
+    <button type="button" class="scrim" data-action="close-modal" aria-label="Close About"></button>
+    <div class="about-panel" role="dialog" aria-modal="true" aria-label="About take a hike">
+      <div class="sheet-head">
+        <span class="mini-wordmark">take a hike</span>
+        <button type="button" class="round" data-action="close-modal" aria-label="Close"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      </div>
+      <p class="about-line">Don't let indecision stop you from taking a hike!</p>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
